@@ -145,14 +145,24 @@ export default function Dashboard() {
             </div>
             
             {/* Heatmap Grid */}
-            <div className="grid grid-rows-7 grid-flow-col gap-1 overflow-x-auto">
-              {activityData.map((day, index) => (
-                <div
-                  key={index}
-                  className={`w-3 h-3 rounded-sm ${getActivityColor(day.count)} hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer`}
-                  title={`${day.date.toLocaleDateString()}: ${day.count} ${day.count === 1 ? 'activity' : 'activities'}`}
-                />
-              ))}
+            <div className="flex gap-1 overflow-x-auto">
+              {Array.from({ length: 12 }, (_, monthIndex) => {
+                const monthStart = monthIndex * 30; // Approximate month grouping
+                const monthEnd = Math.min(monthStart + 30, activityData.length);
+                const monthData = activityData.slice(monthStart, monthEnd);
+                
+                return (
+                  <div key={monthIndex} className="grid grid-rows-7 grid-flow-col gap-1 mr-2">
+                    {monthData.map((day, index) => (
+                      <div
+                        key={monthStart + index}
+                        className={`w-3 h-3 rounded-sm ${getActivityColor(day.count)} hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer`}
+                        title={`${day.date.toLocaleDateString()}: ${day.count} ${day.count === 1 ? 'activity' : 'activities'}`}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           </div>
           
