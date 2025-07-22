@@ -155,16 +155,48 @@ export default function Activity() {
             
             {selectedPeriod === "year" && (
               <>
-                <div className="grid grid-cols-53 gap-1 text-xs mb-4">
-                  {activityData.map((day, index) => (
-                    <div
-                      key={index}
-                      className={`w-3 h-3 rounded-sm ${getActivityColor(day.count)}`}
-                      title={`${day.date.toLocaleDateString()}: ${day.count} activities`}
-                    />
+                {/* Month labels */}
+                <div className="flex gap-1 text-xs text-muted-foreground mb-2 overflow-x-auto">
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <div key={i} className="min-w-[80px] text-center mr-2">
+                      {new Date(2024, i).toLocaleDateString('en', { month: 'short' })}
+                    </div>
                   ))}
                 </div>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                
+                <div className="flex">
+                  {/* Day labels */}
+                  <div className="flex flex-col text-xs text-muted-foreground mr-2 h-fit">
+                    {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((day, i) => (
+                      <div key={i} className="h-3 flex items-center mb-1">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Heatmap Grid with month gaps */}
+                  <div className="flex gap-1 overflow-x-auto">
+                    {Array.from({ length: 12 }, (_, monthIndex) => {
+                      const monthStart = monthIndex * 30;
+                      const monthEnd = Math.min(monthStart + 30, activityData.length);
+                      const monthData = activityData.slice(monthStart, monthEnd);
+                      
+                      return (
+                        <div key={monthIndex} className="grid grid-rows-7 grid-flow-col gap-1 mr-2">
+                          {monthData.map((day, index) => (
+                            <div
+                              key={monthStart + index}
+                              className={`w-3 h-3 rounded-sm ${getActivityColor(day.count)} hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer`}
+                              title={`${day.date.toLocaleDateString()}: ${day.count} ${day.count === 1 ? 'activity' : 'activities'}`}
+                            />
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between text-xs text-muted-foreground mt-4">
                   <span>Less</span>
                   <div className="flex items-center gap-1">
                     <div className="w-3 h-3 rounded-sm bg-muted"></div>
