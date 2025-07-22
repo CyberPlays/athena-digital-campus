@@ -128,9 +128,9 @@ export default function Dashboard() {
           </h3>
           
           {/* Month Labels */}
-          <div className="flex mb-2 ml-8">
+          <div className="flex mb-2 ml-12">
             {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, index) => (
-              <div key={month} className="text-xs text-muted-foreground w-10 text-center" style={{ marginLeft: index * 4 * 12 / 12 + 'px' }}>
+              <div key={month} className="text-xs text-muted-foreground flex-1 text-left">
                 {month}
               </div>
             ))}
@@ -145,7 +145,7 @@ export default function Dashboard() {
             </div>
             
             {/* Heatmap Grid */}
-            <div className="grid grid-rows-7 grid-flow-col gap-1">
+            <div className="grid grid-rows-7 grid-flow-col gap-1 overflow-x-auto">
               {activityData.map((day, index) => (
                 <div
                   key={index}
