@@ -126,22 +126,44 @@ export default function Dashboard() {
             <Calendar className="h-5 w-5 text-primary" />
             Activity Heatmap
           </h3>
-          <div className="grid grid-cols-53 gap-1 text-xs">
-            {activityData.map((day, index) => (
-              <div
-                key={index}
-                className={`w-3 h-3 rounded-sm ${getActivityColor(day.count)}`}
-                title={`${day.date.toLocaleDateString()}: ${day.count} activities`}
-              />
+          
+          {/* Month Labels */}
+          <div className="flex mb-2 ml-8">
+            {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, index) => (
+              <div key={month} className="text-xs text-muted-foreground w-10 text-center" style={{ marginLeft: index * 4 * 12 / 12 + 'px' }}>
+                {month}
+              </div>
             ))}
           </div>
+          
+          <div className="flex">
+            {/* Day Labels */}
+            <div className="flex flex-col justify-around text-xs text-muted-foreground mr-2 h-24">
+              <span>Mon</span>
+              <span>Wed</span>
+              <span>Fri</span>
+            </div>
+            
+            {/* Heatmap Grid */}
+            <div className="grid grid-rows-7 grid-flow-col gap-1">
+              {activityData.map((day, index) => (
+                <div
+                  key={index}
+                  className={`w-3 h-3 rounded-sm ${getActivityColor(day.count)} hover:ring-1 hover:ring-primary/50 transition-all cursor-pointer`}
+                  title={`${day.date.toLocaleDateString()}: ${day.count} ${day.count === 1 ? 'activity' : 'activities'}`}
+                />
+              ))}
+            </div>
+          </div>
+          
           <div className="flex items-center justify-between mt-4 text-xs text-muted-foreground">
             <span>Less</span>
             <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded-sm bg-muted"></div>
-              <div className="w-3 h-3 rounded-sm bg-primary/30"></div>
-              <div className="w-3 h-3 rounded-sm bg-primary/50"></div>
-              <div className="w-3 h-3 rounded-sm bg-primary/70"></div>
+              <div className="w-3 h-3 rounded-sm bg-muted/50"></div>
+              <div className="w-3 h-3 rounded-sm bg-primary/20"></div>
+              <div className="w-3 h-3 rounded-sm bg-primary/40"></div>
+              <div className="w-3 h-3 rounded-sm bg-primary/60"></div>
+              <div className="w-3 h-3 rounded-sm bg-primary/80"></div>
               <div className="w-3 h-3 rounded-sm bg-primary"></div>
             </div>
             <span>More</span>
